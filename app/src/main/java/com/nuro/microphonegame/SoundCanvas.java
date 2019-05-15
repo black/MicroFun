@@ -14,8 +14,9 @@ import android.widget.RelativeLayout;
 public class SoundCanvas extends View{
     private SoundMeter soundMeter;
     private Context ctx;
-    private int d, r=50,rad;
+    private long r=50,rad;
     private int  xx,yy;
+    private long mysecond;
 
     public SoundCanvas(Context context, View ParentView) {
         super(context);
@@ -41,6 +42,10 @@ public class SoundCanvas extends View{
         }
 
         invalidate();
+    }
+
+    public void setTime(long mysecond){
+        this.mysecond = mysecond;
     }
 
     long map(long x, long in_min, long in_max, long out_min, long out_max) {
@@ -94,13 +99,6 @@ public class SoundCanvas extends View{
         label.setColor(Color.BLACK);
         label.setTextSize(20);
         canvas.drawText(msg, x, y, label);
-    }
-
-    public void drawScanner(Canvas canvas, float x, float y) {
-        // Paint line
-        line(canvas, d, d, x, y); // body
-        ellipse(canvas, d, d, 4,Color.WHITE); // tip
-        ellipse(canvas, x, y, 6,Color.WHITE); // tail
     }
 
     @Override
