@@ -6,11 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 @SuppressLint("ViewConstructor")
 public class SoundCanvas extends View{
+    private SoundMeter soundMeter;
     private Context ctx;
     private int d, r=50,rad;
     private int  xx,yy;
@@ -21,13 +23,17 @@ public class SoundCanvas extends View{
         RelativeLayout parentView = (RelativeLayout) ParentView;
         xx = parentView.getWidth() / 2;
         yy = parentView.getHeight()/ 2;
+        soundMeter = new SoundMeter();
+        soundMeter.start();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawColor(Color.argb(0, 0, 0, 0));
-
+        Log.d("Amp",soundMeter.getAmplitude()+"");
+        rad = (int)soundMeter.getAmplitude();
+        rad = (int) map(rad,0,20000,0,150);
         for(int i=0;i<360;i+=18) {
             float x = (float) (xx + (rad+r) * Math.cos(Math.toRadians(i)));
             float y = (float) (yy + (rad+r) * Math.sin(Math.toRadians(i)));
@@ -37,6 +43,9 @@ public class SoundCanvas extends View{
         invalidate();
     }
 
+    long map(long x, long in_min, long in_max, long out_min, long out_max) {
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
     // draw Rectangles
     public void rect(Canvas canvas, float x, float y, float w, float h) {
         Paint rectangle = new Paint();
