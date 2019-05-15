@@ -11,4 +11,32 @@
         android:layout_height="500dp">
 
     </RelativeLayout>
+     <TextView
+         android:id="@+id/time"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:textSize="24sp"
+         android:text="00:00"
+         android:gravity="center"
+         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="16dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="START" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="STOP" />
+    </LinearLayout>
+
 </LinearLayout>

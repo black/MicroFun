@@ -37,7 +37,7 @@ public class SoundCanvas extends View{
         for(int i=0;i<360;i+=18) {
             float x = (float) (xx + (rad+r) * Math.cos(Math.toRadians(i)));
             float y = (float) (yy + (rad+r) * Math.sin(Math.toRadians(i)));
-            ellipse(canvas,x,y,10,Color.RED);
+            ellipse(canvas,x,y,8,Color.RED);
         }
 
         invalidate();
