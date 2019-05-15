@@ -28,6 +28,29 @@ public class MainActivity extends AppCompatActivity {
         View mainView = getLayoutInflater().inflate(R.layout.activity_main, null);
         setContentView(mainView);
 
+        //Permission Check
+        int PERMISSIONS_ALL = 1;
+        String[] permissions = {
+                Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO
+        };
+        if (!hasPermissions(this, permissions)) {
+            ActivityCompat.requestPermissions(this,permissions, PERMISSIONS_ALL);
+        }
+
+        final RelativeLayout mycanvas = findViewById(R.id.mycanvas);
+
+        mainView.post(new Runnable() {
+            @Override
+            public void run() {
+                soundCanvas = new SoundCanvas(MainActivity.this,mycanvas);
+                mycanvas.addView(soundCanvas);
+            }
+        });
+
+
+
         // stop watch -----------
 
         textView = findViewById(R.id.time);
@@ -65,27 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 Minutes = 0 ;
                 MilliSeconds = 0 ;
                 textView.setText("00:00:00");
-            }
-        });
-
-        //Permission Check
-        int PERMISSIONS_ALL = 1;
-        String[] permissions = {
-                Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO
-        };
-        if (!hasPermissions(this, permissions)) {
-            ActivityCompat.requestPermissions(this,permissions, PERMISSIONS_ALL);
-        }
-
-        final RelativeLayout mycanvas = findViewById(R.id.mycanvas);
-
-        mainView.post(new Runnable() {
-            @Override
-            public void run() {
-                soundCanvas = new SoundCanvas(MainActivity.this,mycanvas);
-                mycanvas.addView(soundCanvas);
             }
         });
 

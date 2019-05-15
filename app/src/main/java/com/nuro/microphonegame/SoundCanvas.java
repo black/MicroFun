@@ -14,9 +14,12 @@ import android.widget.RelativeLayout;
 public class SoundCanvas extends View{
     private SoundMeter soundMeter;
     private Context ctx;
-    private long r=50,rad;
+    private int r=50;
     private int  xx,yy;
-    private long mysecond;
+    private int mysecond;
+    private int threshold = 100;
+    private double prevRad;
+    private int score;
 
     public SoundCanvas(Context context, View ParentView) {
         super(context);
@@ -32,23 +35,38 @@ public class SoundCanvas extends View{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawColor(Color.argb(0, 0, 0, 0));
-        Log.d("Amp",soundMeter.getAmplitude()+"");
-        rad = (int)soundMeter.getAmplitude();
-        rad = (int) map(rad,0,20000,0,150);
-        for(int i=0;i<360;i+=18) {
-            float x = (float) (xx + (rad+r) * Math.cos(Math.toRadians(i)));
-            float y = (float) (yy + (rad+r) * Math.sin(Math.toRadians(i)));
-            ellipse(canvas,x,y,8,Color.RED);
+        double rad = soundMeter.getAmplitude();
+        if(rad>0){
+            rad = map(rad,0,20000,0,250);
+            prevRad = rad;
+        }else {
+            rad = prevRad;
+        }
+
+        Log.d("Amp",rad+"");
+        for (int i = 0; i < 360; i += 18) {
+            float x = (float) (xx + (rad + r) * Math.cos(Math.toRadians(i)));
+            float y = (float) (yy + (rad + r) * Math.sin(Math.toRadians(i)));
+            ellipse(canvas, x, y, 6, Color.RED);
+        }
+        // rad = (int) map(rad,0,20000,0,150);
+        ring(canvas, xx, yy, threshold, Color.BLACK);
+        ring(canvas, xx, yy, threshold+100, Color.BLACK);
+
+        if(mysecond<10 && rad>threshold && rad<threshold+100){
+            score++;
+        }else{
+            score=0;
         }
 
         invalidate();
     }
 
     public void setTime(long mysecond){
-        this.mysecond = mysecond;
+        this.mysecond = (int)mysecond;
     }
 
-    long map(long x, long in_min, long in_max, long out_min, long out_max) {
+    double map(double x, double in_min, double in_max, double out_min, double out_max) {
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
     // draw Rectangles
@@ -76,7 +94,7 @@ public class SoundCanvas extends View{
         Paint ring = new Paint();
         ring.setStyle(Paint.Style.STROKE);
         ring.setColor(color);
-        ring.setStrokeWidth(5);
+        ring.setStrokeWidth(1);
         ring.setAntiAlias(true);
         RectF circle = new RectF(x - r, y - r, x + r, y + r);
         canvas.drawOval(circle, ring);
