@@ -17,7 +17,7 @@ public class SoundCanvas extends View{
     private int r=50;
     private int  xx,yy;
     private int mysecond;
-    private int threshold = 100;
+    private int threshold = 190;
     private double prevRad;
     private int score;
 
@@ -43,21 +43,26 @@ public class SoundCanvas extends View{
             rad = prevRad;
         }
 
-        Log.d("Amp",rad+"");
-        for (int i = 0; i < 360; i += 18) {
-            float x = (float) (xx + (rad + r) * Math.cos(Math.toRadians(i)));
-            float y = (float) (yy + (rad + r) * Math.sin(Math.toRadians(i)));
-            ellipse(canvas, x, y, 6, Color.RED);
-        }
-        // rad = (int) map(rad,0,20000,0,150);
-        ring(canvas, xx, yy, threshold, Color.BLACK);
-        ring(canvas, xx, yy, threshold+100, Color.BLACK);
-
-        if(mysecond<10 && rad>threshold && rad<threshold+100){
-            score++;
+        if(rad>threshold){
+            ellipse(canvas,xx,yy,150,Color.RED);
         }else{
-            score=0;
+            ellipse(canvas,xx,yy,150,Color.GRAY);
         }
+
+
+//        Log.d("Amp",rad+"");
+//        for (int i = 0; i < 360; i += 18) {
+//            float x = (float) (xx + (rad + r) * Math.cos(Math.toRadians(i)));
+//            float y = (float) (yy + (rad + r) * Math.sin(Math.toRadians(i)));
+//            ellipse(canvas, x, y, 6, Color.RED);
+//        }
+//
+//        ring(canvas, xx, yy, threshold, Color.BLACK);
+//        ring(canvas, xx, yy, threshold+100, Color.BLACK);
+
+//        if(mysecond<10 && rad>threshold && rad<threshold+100){
+//            score++;
+//        }
 
         invalidate();
     }
